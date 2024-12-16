@@ -1,0 +1,60 @@
+/* headers.css */
+.drawer-container {
+    width: 250px; /* Ancho del menú lateral */
+    padding-top: 16px; /* Espacio superior */
+    height: calc(100vh - 10px); /* Altura total menos la altura del AppBar */
+    background-color: #f0f0f0; /* Color de fondo del menú */
+    overflow-y: hidden; /* Elimina el scroll vertical */
+}
+
+.logo-container {
+    display: flex;
+    margin: 0px;
+    justify-content: center; /* Centra el logo */
+    padding-bottom: 0px; /* Espacio debajo del logo */
+    
+}
+
+
+.logo-container img {
+    height: 60px; /* Ajusta el tamaño del logo según lo necesites */
+}
+
+.user-info {
+    display: flex;
+    align-items: center; /* Centra el nombre de usuario y botón */
+}
+
+.username {
+    margin-right: 10px; /* Espaciado entre el nombre y el botón */
+    color: white; /* Color del nombre de usuario */
+}
+
+.logout-button {
+    padding: 5px 10px;
+    background-color: #03dac6; /* Color del botón */
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+/* headers.css */
+.user-info {
+    display: flex; /* Usa flexbox para alinear los elementos */
+    align-items: center; /* Alinea verticalmente el nombre y el botón */
+    margin-left: auto; /* Empuja el grupo a la derecha */
+}
+
+.username {
+    margin-right: 10px; /* Espaciado entre el nombre y el botón */
+    color: white; /* Color del nombre de usuario */
+}
+
+.logout-button {
+    padding: 5px 10px;
+    background-color: #03dac6; /* Color del botón */
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}

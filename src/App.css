@@ -1,0 +1,149 @@
+/* Login.css */
+.login-container {
+  display: flex;
+  height: 100vh; /* Ocupa toda la altura de la ventana */
+}
+
+.login-form {
+  flex: 1; /* Ocupa la mitad derecha */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 40px;
+  background-color: #ffffff; /* Fondo blanco para el formulario */
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1); /* Sombra */
+  border-radius: 8px; /* Bordes redondeados */
+}
+
+.logo-container {
+  flex: 1; /* Ocupa la mitad izquierda */
+  display: flex;
+  flex-direction: column; /* Asegúrate de que los elementos estén en columna */
+  justify-content: center; /* Centrar verticalmente */
+  align-items: center;
+  justify-content: center;
+  background-color: #98d0e1c2; /* Color de fondo */
+}
+
+.logo {
+  max-width: 70%; /* Ajusta el tamaño del logo */
+ 
+}
+
+.avatar {
+  width: 100px; /* Tamaño del avatar */
+  height: 100px;
+  border-radius: 50%; /* Bordes redondeados para hacer un círculo */
+  margin-bottom: 20px; /* Espacio entre el avatar y el título */
+}
+
+.form-group {
+  margin-bottom: 15px;
+  width: 100%; /* Ocupa todo el ancho disponible */
+}
+
+.form-group label {
+  display: block; /* Etiquetas en bloque */
+  margin-bottom: 5px; /* Espacio debajo de las etiquetas */
+}
+
+input {
+  width: 100%; /* Campo de entrada ocupa todo el ancho */
+  padding: 10px; /* Relleno */
+  border: 1px solid #ccc; /* Borde */
+  border-radius: 4px; /* Bordes redondeados */
+}
+
+button {
+  width: 100%; /* Botón ocupa todo el ancho */
+  padding: 10px; /* Relleno */
+  background-color: #5d39a0; /* Color de fondo del botón */
+  color: white; /* Color del texto */
+  border: none; /* Sin borde */
+  border-radius: 4px; /* Bordes redondeados */
+  cursor: pointer; /* Cambiar cursor */
+  margin-top: 10px; /* Espacio arriba del botón */
+}
+
+button:hover {
+  background-color: #0056b3; /* Color de fondo al pasar el cursor */
+}
+.text {
+  margin-top: 10px; /* Espacio entre el logo y el texto */
+  color: white; /* Color del texto, cambia según lo necesites */
+  font-size: 1.2em; /* Tamaño de fuente */
+  text-align: center; /* Centrar el texto */
+}
+.drawer-container{
+  background-color: #f8fcfcc2; /* Color de fondo */
+}
+/* estilos dashboard*/
+.dashboard {
+  display: flex;
+  flex-direction: column;
+  margin-left: 240px; /* Deja espacio para el nav */
+  padding: 16px; /* Espacio interno */
+  height: calc(100vh - 64px); /* Altura total menos el header */
+  overflow: auto; /* Permitir scroll interno si es necesario */
+  box-sizing: border-box; /* Incluye padding en el cálculo de ancho */
+}
+
+
+.stats-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px; /* Espacio entre tarjetas */
+  
+}
+
+.stats-card {
+  flex: 1 1 200px; /* Permite que las tarjetas sean flexibles, con un ancho mínimo */
+  max-width: 300px; /* Establece un ancho máximo para las tarjetas */
+  padding: 16px; /* Espacio interior de las tarjetas */
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2); /* Sombra para dar profundidad */
+  border-radius: 8px; /* Bordes redondeados */
+}
+
+
+
+.sales-chart {
+  margin-top: 20px;
+}
+
+.summary-box {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 20px;
+}
+
+.summary-card {
+  flex: 1;
+  margin: 0 10px;
+  padding: 20px;
+  background-color: #e2e2e2;
+  border-radius: 8px;
+  text-align: center;
+  margin-left:80px;
+
+}
+/* CSS */
+.dashboard {
+  display: flex;
+  flex-direction: column;
+  padding: 16px;
+  width: 100%;
+  height:100%; /* Ocupa el espacio restante debajo del header */
+  margin-top: 80px; /* Deja espacio para el header fijo */
+  margin-left: 240px; /* Deja espacio para el nav lateral */
+  overflow-y: auto; /* Habilita el scroll si el contenido excede la altura */
+}
+
+.dashboard-content {
+  flex: 1; /* Hace que el contenido ocupe todo el espacio disponible */
+}
+
+.dashboard-grid {
+  margin-top: 16px; /* Espacio entre el contenido y la grid */
+}
+
