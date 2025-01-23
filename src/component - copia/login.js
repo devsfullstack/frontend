@@ -1,16 +1,15 @@
 import React, { useState } from 'react';
-import Axios from 'axios';
-import Logo from '../imagenes/LOGO.png';
+import Axios from 'axios'; // Asegúrate de instalar Axios con `npm install axios`
+import Logo from '../imagenes/LOGO.png'; // Ajusta la ruta según tu estructura
 import '../App.css';
-import { useNavigate } from 'react-router-dom';
-import { Avatar } from '@mui/material'; // Importa Avatar correctamente desde MUI
+import { useNavigate } from 'react-router-dom'; // Importa useNavigate
 
 const Login = ({ onLogin }) => {
     const [usuario, setUsuario] = useState('');
     const [contraseña, setContraseña] = useState('');
     const [error, setError] = useState('');
     const [successMessage, setSuccessMessage] = useState('');
-    const navigate = useNavigate();
+    const navigate = useNavigate(); // Inicializa useNavigate
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -28,15 +27,18 @@ const Login = ({ onLogin }) => {
                 contraseña,
             });
 
+            console.log(response.data); // Para depuración
+
             if (response.data.token) {
-                localStorage.setItem('token', response.data.token);
+                localStorage.setItem('token', response.data.token); // Almacena el token
                 setSuccessMessage('Inicio de sesión exitoso');
-                onLogin(usuario);
-                navigate('/dashboard');
+                onLogin(usuario); // Llama a la función de inicio de sesión con el nombre de usuario
+                navigate('/dashboard'); // Redirige al dashboard
             } else {
                 setError(response.data.error || 'Error al iniciar sesión');
             }
         } catch (err) {
+            console.error(err);
             setError(err.response ? err.response.data.error : 'Error al iniciar sesión');
         }
     };
@@ -44,12 +46,7 @@ const Login = ({ onLogin }) => {
     return (
         <div className="login-container">
             <div className="login-form">
-                {/* Avatar de Material UI con tamaño personalizado */}
-                <Avatar 
-                    src="https://via.placeholder.com/150" 
-                    alt="Avatar"
-                    sx={{ width: 100, height: 100, margin: '0 auto' }} 
-                />
+                <img src="https://via.placeholder.com/100" alt="Avatar" className="avatar" />
                 <h2>Iniciar Sesión</h2>
                 <form onSubmit={handleSubmit}>
                     {error && <p className="error">{error}</p>}
@@ -60,7 +57,11 @@ const Login = ({ onLogin }) => {
                             type="text" 
                             id="usuario" 
                             value={usuario} 
-                            onChange={(e) => setUsuario(e.target.value)}
+                            onChange={(e) => {
+                                setUsuario(e.target.value);
+                                setError('');
+                                setSuccessMessage('');
+                            }} 
                             required 
                         />
                     </div>
@@ -70,7 +71,11 @@ const Login = ({ onLogin }) => {
                             type="password" 
                             id="contraseña" 
                             value={contraseña} 
-                            onChange={(e) => setContraseña(e.target.value)}
+                            onChange={(e) => {
+                                setContraseña(e.target.value);
+                                setError('');
+                                setSuccessMessage('');
+                            }} 
                             required 
                         />
                     </div>

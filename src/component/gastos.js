@@ -1,86 +1,69 @@
 import React, { useState } from 'react';
 import { Button, TextField, Grid, Typography, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, TablePagination, Collapse } from '@mui/material';
-import { useNavigate } from 'react-router-dom'; // Importa useNavigate
+import { useNavigate } from 'react-router-dom';
 
+const Gastos = () => {
+  const [filtersOpen, setFiltersOpen] = useState(false);
+  const [gastosData, setGastosData] = useState([]);
+  const [page, setPage] = useState(0);
+  const [rowsPerPage, setRowsPerPage] = useState(5);
+  const [fecha, setFecha] = useState('');
+  const navigate = useNavigate();
 
-const OtrosIngresos = () => {
-  const [filtersOpen, setFiltersOpen] = useState(false); // Para mostrar/ocultar filtros
-  const [otrosIngresosData, setOtrosIngresosData] = useState([]); // Datos de ingresos (simulados)
-  const [page, setPage] = useState(0); // Página de la tabla
-  const [rowsPerPage, setRowsPerPage] = useState(5); // Número de filas por página
-  const [fecha, setFecha] = useState(''); // Fecha de búsqueda
-  const navigate = useNavigate(); // Hook de navegación
-
-  // Datos simulados para la tabla
-  const ingresosData = [
-    { estado: 'Activo', id: '123', fecha: '2024-12-01', categoria: 'Venta', descripcion: 'Venta de producto A', metodoPago: 'Tarjeta', monto: 150 },
-    { estado: 'Vencido', id: '124', fecha: '2024-11-20', categoria: 'Servicios', descripcion: 'Consultoría', metodoPago: 'Transferencia', monto: 200 },
-    // Más datos simulados...
+  const gastosSimulados = [
+    { estado: 'Activo', id: '001', fecha: '2024-12-01', categoria: 'Alquiler', descripcion: 'Pago mensual de oficina', metodoPago: 'Transferencia', monto: 1000 },
+    { estado: 'Vencido', id: '002', fecha: '2024-11-20', categoria: 'Servicios', descripcion: 'Factura de electricidad', metodoPago: 'Efectivo', monto: 200 }
   ];
 
-  // Filtra los datos por fecha
   const handleSearchByDate = () => {
     if (fecha) {
-      setOtrosIngresosData(ingresosData.filter(item => item.fecha.includes(fecha)));
+      setGastosData(gastosSimulados.filter(item => item.fecha.includes(fecha)));
     } else {
-      setOtrosIngresosData(ingresosData);
+      setGastosData(gastosSimulados);
     }
   };
 
-  // Control de paginación
   const handleChangePage = (event, newPage) => setPage(newPage);
   const handleChangeRowsPerPage = (event) => setRowsPerPage(parseInt(event.target.value, 10));
 
-  // Lógica para nuevo ingreso (Redirección)
-  const handleNewIngreso = () => {
-    navigate('/nuevo-ingreso'); // Redirige a la página de NuevoIngreso
+  const handleNewGasto = () => {
+    navigate('/nuevo-gasto');
   };
 
-  // Lógica para exportar datos
   const handleExport = () => {
-    console.log('Exportando datos...');
+    console.log('Exportando gastos...');
   };
 
   return (
-    <div style={{ marginTop: '100px', padding: '90px', maxWidth: '80%', margin: '0 auto', marginLeft: '20%' }}>
-      <Typography variant="h4" gutterBottom>Otros Ingresos</Typography>
+    <div style={{ marginTop: '80px', padding: '90px', maxWidth: '100%', margin: '0 auto', marginLeft: '20%' }}>
+      <Typography variant="h4" gutterBottom>Gastos</Typography>
 
-      {/* Filtros y nuevo ingreso */}
       <Grid container spacing={2} style={{ marginBottom: '20px' }}>
-        <Grid item xs={12} md={6} style={{ display: 'flex', justifyContent: 'flex-start' }}>
-          <Button
-            variant="outlined"
-            color="primary"
-            onClick={() => setFiltersOpen(!filtersOpen)}
-            size="small"
-            style={{
-              backgroundColor: '#1976d2',
-              color: 'white',
-              fontWeight: 'bold',
-              marginRight: '10px',
-            }}
-          >
-            {filtersOpen ? 'Cerrar Filtros' : 'Filtros'}
-          </Button>
+        <Grid item xs={12} md={6}>
+        <Button
+  variant="contained" // Cambiado a "contained" para que tenga el fondo del color primario
+  color="primary" // Usando el color primario definido en el tema
+  onClick={() => setFiltersOpen(!filtersOpen)}
+  size="small"
+  style={{ color: 'white' }} // Asegurando que el texto sea blanco
+>
+  {filtersOpen ? 'Cerrar Filtros' : 'Filtros'}
+</Button>
+
         </Grid>
         <Grid item xs={12} md={6} style={{ display: 'flex', justifyContent: 'flex-end' }}>
-          <Button
-            variant="contained"
-            color="primary"
-            onClick={handleNewIngreso} // Aquí se llama a la función que redirige
-            size="small"
-            style={{
-              backgroundColor: '#4caf50',
-              color: 'white',
-              fontWeight: 'bold',
-            }}
-          >
-            Nuevo Ingreso
-          </Button>
+        <Button
+  variant="contained"
+  style={{ backgroundColor: '#28a745', color: 'white' }} // Verde con texto blanco
+  onClick={handleNewGasto}
+  size="small"
+>
+  Nuevo Gasto
+</Button>
+
         </Grid>
       </Grid>
 
-      {/* Filtros */}
       <Collapse in={filtersOpen}>
         <Grid container spacing={3} style={{ marginTop: '20px' }}>
           <Grid item xs={12} md={3}>
@@ -99,7 +82,7 @@ const OtrosIngresos = () => {
               variant="contained"
               color="primary"
               onClick={handleSearchByDate}
-              style={{ width: '100%' }}
+              fullWidth
             >
               Buscar
             </Button>
@@ -107,7 +90,6 @@ const OtrosIngresos = () => {
         </Grid>
       </Collapse>
 
-      {/* Tabla de ingresos */}
       <TableContainer component={Paper} style={{ marginTop: '20px' }}>
         <Table>
           <TableHead>
@@ -122,7 +104,7 @@ const OtrosIngresos = () => {
             </TableRow>
           </TableHead>
           <TableBody>
-            {otrosIngresosData.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row) => (
+            {gastosData.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row) => (
               <TableRow key={row.id}>
                 <TableCell>{row.estado}</TableCell>
                 <TableCell>{row.id}</TableCell>
@@ -137,24 +119,22 @@ const OtrosIngresos = () => {
         </Table>
       </TableContainer>
 
-      {/* Paginación */}
       <TablePagination
         rowsPerPageOptions={[5, 10, 25]}
         component="div"
-        count={otrosIngresosData.length}
+        count={gastosData.length}
         rowsPerPage={rowsPerPage}
         page={page}
         onPageChange={handleChangePage}
         onRowsPerPageChange={handleChangeRowsPerPage}
       />
 
-      {/* Botón de Exportar */}
       <div style={{ marginTop: '20px', display: 'flex', justifyContent: 'center' }}>
         <Button
           variant="contained"
           color="primary"
           onClick={handleExport}
-          style={{ fontWeight: 'bold', padding: '10px 20px' }}
+          style={{ fontWeight: 'bold' }}
         >
           Exportar
         </Button>
@@ -163,4 +143,4 @@ const OtrosIngresos = () => {
   );
 };
 
-export default OtrosIngresos;
+export default Gastos;

@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import { Button, TextField, Grid, Typography, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, TablePagination, Collapse } from '@mui/material';
-import { useNavigate } from 'react-router-dom';
 
 const Presupuesto = () => {
   const [filtersOpen, setFiltersOpen] = useState(false); // Para mostrar/ocultar filtros
@@ -24,26 +23,19 @@ const Presupuesto = () => {
     // Más datos simulados...
   ];
 
-  const navigate = useNavigate();
-
   const handleFilterToggle = () => setFiltersOpen(!filtersOpen);
   const handleChangePage = (event, newPage) => setPage(newPage);
   const handleChangeRowsPerPage = (event) => setRowsPerPage(parseInt(event.target.value, 10));
-
-  const handleNewPresupuesto = () => {
-    console.log('Nuevo presupuesto creado');
-    navigate('/nuevo-presupuesto'); // Cambia '/ruta-donde-redirigir' por la ruta deseada
-  };
-
+  const handleNewPresupuesto = () => console.log('Nuevo presupuesto creado');
   const handleExport = () => console.log('Exportando datos...');
 
   return (
-    <div style={{ marginTop: '40px',Heigh:"60%",padding: '80px', maxWidth: '60%', margin: '10px',marginLeft:"320px" }}>
+    <div style={{ marginTop: '80px', padding: '20px', maxWidth: '60%', margin: '0 auto' }}>
       <Typography variant="h4" gutterBottom>Presupuesto</Typography>
 
       {/* Filtros y nuevo presupuesto */}
-      <Grid container spacing={2} style={{ marginBottom: '20px',width:"60%"}}>
-        <Grid item xs={12} md={6} style={{ display: 'flex', justifyContent: 'flex-start'}}>
+      <Grid container spacing={2} style={{ marginBottom: '20px' }}>
+        <Grid item xs={12} md={6} style={{ display: 'flex', justifyContent: 'flex-start' }}>
           <Button
             variant="outlined"
             color="primary"  // Color azul para el botón

@@ -1,49 +1,82 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Bar } from 'react-chartjs-2';
 import { Chart as ChartJS, CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend } from 'chart.js';
+import axios from 'axios';
 
 // Registrar las escalas y componentes necesarios
 ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend);
 
 const SalesChart = () => {
-  const data = {
-    labels: ['Enero', 'Febrero', 'Marzo', 'Abril'], // Meses
+  const [chartData, setChartData] = useState({
+    labels: [],
     datasets: [
       {
         label: 'Ventas',
-        data: [12000, 19000, 3000, 5000],
-        backgroundColor: 'rgba(75, 192, 192, 0.6)', // Color para Ventas
+        data: [],
+        backgroundColor: 'rgba(75, 192, 192, 0.6)',
       },
       {
         label: 'Ingresos',
-        data: [15000, 25000, 8000, 10000],
-        backgroundColor: 'rgba(255, 205, 86, 0.6)', // Color para Ingresos
+        data: [],
+        backgroundColor: 'rgba(255, 205, 86, 0.6)',
       },
       {
         label: 'Compras',
-        data: [10000, 15000, 5000, 7000],
-        backgroundColor: 'rgba(255, 99, 132, 0.6)', // Color para Compras
+        data: [],
+        backgroundColor: 'rgba(255, 99, 132, 0.6)',
       },
       {
         label: 'Gastos',
-        data: [5000, 10000, 2000, 4000],
-        backgroundColor: 'rgba(54, 162, 235, 0.6)', // Color para Gastos
+        data: [],
+        backgroundColor: 'rgba(54, 162, 235, 0.6)',
       },
     ],
-  };
+  });
+
+  useEffect(() => {
+    // Obtener los datos desde el backend
+    const fetchData = async () => {
+      try {
+        const response = await axios.get('http://localhost:3001/api/ventas');
+        const data = response.data;
+
+        // Procesar los datos para usarlos en el gráfico
+        const labels = data.map(item => item.mes);
+        const ventasData = data.map(item => item.ventas);
+        const ingresosData = data.map(item => item.ingresos);
+        const comprasData = data.map(item => item.compras);
+        const gastosData = data.map(item => item.gastos);
+
+        // Actualizar el estado del gráfico de manera segura
+        setChartData(prevData => ({
+          labels,
+          datasets: [
+            { ...prevData.datasets[0], data: ventasData },
+            { ...prevData.datasets[1], data: ingresosData },
+            { ...prevData.datasets[2], data: comprasData },
+            { ...prevData.datasets[3], data: gastosData },
+          ],
+        }));
+      } catch (error) {
+        console.error('Error al obtener los datos:', error);
+      }
+    };
+
+    fetchData();
+  }, []); // Aquí no es necesario incluir chartData.datasets en la dependencia
 
   const options = {
-    responsive: true, // Habilita la respuesta al cambio de tamaño de la ventana
-    maintainAspectRatio: false, // Permite que el gráfico cambie de tamaño según el contenedor
+    responsive: true,
+    maintainAspectRatio: false,
     scales: {
       y: {
         ticks: {
-          stepSize: 10000, // Establece el incremento de los valores en el eje Y de a 10,000
-          beginAtZero: true, // Empieza en cero
+          stepSize: 10000,
+          beginAtZero: true,
         },
         title: {
           display: true,
-          text: 'Monto (en pesos)', // Título para el eje Y
+          text: 'Monto (en pesos)',
         },
       },
     },
@@ -51,8 +84,7 @@ const SalesChart = () => {
 
   return (
     <div className="sales-chart" style={{ width: '100%', marginLeft: '20px', height: '300px' }}>
-      {/* El gráfico se ajusta al 100% del contenedor con una altura de 400px */}
-      <Bar data={data} options={options} />
+      <Bar data={chartData} options={options} />
     </div>
   );
 };

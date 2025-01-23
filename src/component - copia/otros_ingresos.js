@@ -1,7 +1,5 @@
 import React, { useState } from 'react';
 import { Button, TextField, Grid, Typography, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, TablePagination, Collapse } from '@mui/material';
-import { useNavigate } from 'react-router-dom'; // Importa useNavigate
-
 
 const OtrosIngresos = () => {
   const [filtersOpen, setFiltersOpen] = useState(false); // Para mostrar/ocultar filtros
@@ -9,7 +7,6 @@ const OtrosIngresos = () => {
   const [page, setPage] = useState(0); // Página de la tabla
   const [rowsPerPage, setRowsPerPage] = useState(5); // Número de filas por página
   const [fecha, setFecha] = useState(''); // Fecha de búsqueda
-  const navigate = useNavigate(); // Hook de navegación
 
   // Datos simulados para la tabla
   const ingresosData = [
@@ -31,9 +28,9 @@ const OtrosIngresos = () => {
   const handleChangePage = (event, newPage) => setPage(newPage);
   const handleChangeRowsPerPage = (event) => setRowsPerPage(parseInt(event.target.value, 10));
 
-  // Lógica para nuevo ingreso (Redirección)
+  // Lógica para nuevo ingreso
   const handleNewIngreso = () => {
-    navigate('/nuevo-ingreso'); // Redirige a la página de NuevoIngreso
+    console.log('Nuevo ingreso creado');
   };
 
   // Lógica para exportar datos
@@ -42,7 +39,7 @@ const OtrosIngresos = () => {
   };
 
   return (
-    <div style={{ marginTop: '100px', padding: '90px', maxWidth: '80%', margin: '0 auto', marginLeft: '20%' }}>
+    <div style={{ marginTop: '80px', padding: '20px', maxWidth: '100%', margin: '0 auto', marginLeft: '20%' }}> {/* Mueve el contenedor 20% a la derecha */}
       <Typography variant="h4" gutterBottom>Otros Ingresos</Typography>
 
       {/* Filtros y nuevo ingreso */}
@@ -54,7 +51,7 @@ const OtrosIngresos = () => {
             onClick={() => setFiltersOpen(!filtersOpen)}
             size="small"
             style={{
-              backgroundColor: '#1976d2',
+              backgroundColor: '#1976d2', // Azul oscuro
               color: 'white',
               fontWeight: 'bold',
               marginRight: '10px',
@@ -67,7 +64,7 @@ const OtrosIngresos = () => {
           <Button
             variant="contained"
             color="primary"
-            onClick={handleNewIngreso} // Aquí se llama a la función que redirige
+            onClick={handleNewIngreso}
             size="small"
             style={{
               backgroundColor: '#4caf50',

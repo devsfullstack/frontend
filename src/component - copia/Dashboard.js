@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-//import axios from 'axios';
+import axios from 'axios';
 import { Grid, Typography } from '@mui/material';
 import { Pie } from 'react-chartjs-2';
 import { Chart as ChartJS, ArcElement, Tooltip, Legend } from 'chart.js';
@@ -21,33 +21,37 @@ const Dashboard = () => {
     porcentajeCrecimiento: 0,
   });
 
-  const fetchData = async () => {
-    try {
-      const response = await fetch('http://localhost:3001/api/estadisticas');
-      const datos = await response.json();
-
-      // Verificar los datos en consola
-      console.log('Ventas:', datos.ventasCreadas);
-      console.log('Compras:', datos.comprasTotales);
-      console.log('Gastos:', datos.gastosTotales);
-      console.log('Resumen:', datos.ingresosTotales);
-
-      // Actualizar el estado con los datos obtenidos
-      setStats({
-        ventasCreadas: datos.ventasCreadas || 0,
-        ventasPromedio: datos.ventasPromedio || 0,
-        cantidadVentas: datos.cantidadVentas || 0,
-        ingresosTotales: datos.ingresosTotales || 0,
-        comprasTotales: datos.comprasTotales || 0,
-        gastosTotales: datos.gastosTotales || 0,
-        porcentajeCrecimiento: datos.porcentajeCrecimiento || 0,
-      });
-    } catch (error) {
-      console.error('Error al obtener las estadísticas:', error);
-    }
-  };
 
   useEffect(() => {
+    // Obtener datos desde el backend
+    const fetchData = async () => {
+      try {
+        const ventasResponse = await axios.get('/api/ventas');
+        const comprasResponse = await axios.get('/api/compras');
+        const gastosResponse = await axios.get('/api/gastos');
+        const resumenResponse = await axios.get('/api/resumen');
+
+        // Verificar los datos en conola
+        console.log('Ventas:', ventasResponse.data);
+        console.log('Compras:', comprasResponse.data);
+        console.log('Gastos:', gastosResponse.data);
+        console.log('Resumen:', resumenResponse.data);
+
+        // Actualizar el estado con los datos obtenidos
+        setStats({
+          ventasCreadas: ventasResponse.data.total_ventas || 0,
+          ventasPromedio: ventasResponse.data.total_ventas / (ventasResponse.data.cantidad_ventas || 1) || 0,  // Calcular correctamente el promedio de ventas
+          cantidadVentas: ventasResponse.data.cantidad_ventas || 0,  // Asegurarse de que esto sea correcto
+          ingresosTotales: resumenResponse.data.ingresos || 0,
+          comprasTotales: comprasResponse.data.total_compras || 0,
+          gastosTotales: gastosResponse.data.total_gastos || 0,
+          porcentajeCrecimiento: 10,  // Puedes ajustar este cálculo
+        });
+      } catch (error) {
+        console.error('Error al obtener los datos:', error);
+      }
+    };
+
     fetchData();
   }, []);
 
@@ -196,44 +200,3 @@ const Dashboard = () => {
 };
 
 export default Dashboard;
-
-/*import React, { useState, useEffect } from 'react';
-
-const Estadisticas = () => {
-    const [datos, setDatos] = useState(null);
-
-    useEffect(() => {
-        // Hacer la solicitud a tu API
-        fetch('http://localhost:3001/api/estadisticas')
-            .then(response => response.json())
-            .then(datos => {
-                setDatos(datos);       
-            })
-            .catch(error => {
-                console.error('Error al obtener las estadísticas:', error);
-            });
-    }, []);
-
-    if (!datos) {
-        return <div>Cargando...</div>;
-    }
-
-    return (
-        <div>
-            <h2>Estadísticas</h2>
-            <ul>
-                <li>Ventas creadas: {datos.ventasCreadas}</li>
-                <li>Ventas promedio: {datos.ventasPromedio}</li>
-                <li>Ingresos totales: {datos.ingresosTotales}</li>
-                <li>Compras totales: {datos.comprasTotales}</li>
-                <li>Gastos totales: {datos.gastosTotales}</li>
-                <li>Porcentaje de crecimiento de ventas: {datos.porcentajeCrecimientoVentas}%</li>
-                <li>Porcentaje de crecimiento de compras: {datos.porcentajeCrecimientoCompras}%</li>
-                <li>Porcentaje de crecimiento de gastos: {datos.porcentajeCrecimientoGastos}%</li>
-            </ul>
-        </div>
-    );
-};
-
-export default Estadisticas;
-*/
